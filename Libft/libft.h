@@ -6,7 +6,7 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 11:14:15 by thrio             #+#    #+#             */
-/*   Updated: 2023/01/21 18:15:36 by thrio            ###   ########.fr       */
+/*   Updated: 2023/01/23 14:37:41 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,5 @@ int			ft_putnbr_int(long int nbr);
 int			ft_printxx(long long int nb, char c);
 
 int			ft_recursive_power(int nb, int power);
-
-char		*ft_straddc(char *str, char c);
 
 #endif
