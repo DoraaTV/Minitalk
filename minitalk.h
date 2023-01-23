@@ -6,7 +6,7 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 07:39:00 by thrio             #+#    #+#             */
-/*   Updated: 2023/01/21 16:52:34 by thrio            ###   ########.fr       */
+/*   Updated: 2023/01/22 12:50:25 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,12 @@
 #  define FALSE 0
 # endif
 
-typedef struct	s_stack
+typedef struct	s_struct
 {
-	char		message[BUFFSIZE];
-	int			top_bit;
-	int			top_byte;
-	_Bool		all_receive;
-	_Bool		buff_overflow;
-}				t_stack;
+	unsigned int	bit;
+	char			symbol;
+}				t_struct;
 
-t_stack			g_to_print = {{0}, 1 << 6, 0, FALSE, FALSE};
+t_struct			s_bits;
 
 #endif

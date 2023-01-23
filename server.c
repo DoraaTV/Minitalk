@@ -6,64 +6,47 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 07:18:03 by thrio             #+#    #+#             */
-/*   Updated: 2023/01/21 18:27:46 by thrio            ###   ########.fr       */
+/*   Updated: 2023/01/22 13:22:26 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	handler(int sig, siginfo_t *lst, void *ptr1)
+void	handler(int	sig, siginfo_t *info, void *ptr1)
 {
-	static char c = 0xFF;
-	static int	bits = 0;
-	static int	pid = 0;
-	static char	*s = 0;
-
 	(void)ptr1;
-	printf("%d", sig);
-	if (lst->si_pid)
-		pid = lst->si_pid;
 	if (sig == SIGUSR1)
-		c ^= 0x80 >> bits;
-	else if (sig == SIGUSR2)
-		c |= 0x80 >> bits;
-	if (++bits == 8)
+		s_bits.symbol += s_bits.bit;
+	s_bits.bit >>=1;
+	if (!s_bits.bit)
 	{
-		if (c)
-			s = ft_straddc(s, c);
+		if (!s_bits.symbol)
+			ft_printf("\n");
 		else
 		{
-			ft_printf("%s", s);
-			free(s);
+			if (s_bits.symbol == '\0')
+				printf("ici");
+			ft_printf("%c", s_bits.symbol);
 		}
-		bits = 0;
-		c = 0xFF;
+		s_bits.bit = 0x80;
+		s_bits.symbol = 0;
 	}
-	if (kill(pid, SIGUSR1) == -1)
-	{
-		ft_printf("Error\n");
-		exit (1);
-	}
+	usleep(50);
+	kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)
 {
 	struct sigaction sa;
-	sigset_t	block_mask;
 	
-	sigemptyset(&block_mask);
-	sigaddset(&block_mask, SIGINT);
-	sigaddset(&block_mask, SIGQUIT);
-	sa.sa_handler = 0;
+	s_bits.symbol = 0;
+	s_bits.bit = 0x80;
+	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
-	sa.sa_mask = block_mask;
-	sa.sa_sigaction = handler;
-	if (sigaction(SIGUSR1, &sa, NULL) != 0)
-		exit(1);
-	if (sigaction(SIGUSR2, &sa, NULL) != 0)
-		exit(1);
+	sa.sa_sigaction = &handler;
+	sigaction(SIGUSR1, &sa, 0);
+	sigaction(SIGUSR2, &sa, 0);
 	ft_printf("Server PID : %d\n", getpid());
 	while (1)
 		pause();
-	return (0);
 }
