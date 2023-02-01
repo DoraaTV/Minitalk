@@ -6,13 +6,13 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 07:17:59 by thrio             #+#    #+#             */
-/*   Updated: 2023/02/01 13:38:33 by thrio            ###   ########.fr       */
+/*   Updated: 2023/02/01 14:26:49 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void handler(int sig)
+void	handler(int sig)
 {
 	if (sig == SIGUSR2)
 		ft_printf("Data has been sent and received\n");
@@ -22,8 +22,8 @@ void handler(int sig)
 
 struct sigaction	helper(char **av)
 {
-	struct sigaction sa;
-	
+	struct sigaction	sa;
+
 	g_bits.len = ft_strlen(av[2]) + 1;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
@@ -36,7 +36,7 @@ void	send(char **av)
 	while (g_bits.len--)
 	{
 		g_bits.bit = 0x80;
-		while(g_bits.bit)
+		while (g_bits.bit)
 		{
 			if (*av[2] & g_bits.bit)
 			{
@@ -53,7 +53,6 @@ void	send(char **av)
 		}
 		av[2]++;
 	}
-	
 }
 
 int	main(int ac, char **av)

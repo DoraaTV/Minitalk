@@ -6,13 +6,11 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 07:18:03 by thrio             #+#    #+#             */
-/*   Updated: 2023/02/01 13:38:29 by thrio            ###   ########.fr       */
+/*   Updated: 2023/02/01 14:26:07 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-char	*message;
 
 char	*ft_straddc_first(char c)
 {
@@ -50,7 +48,7 @@ char	*ft_straddc(char *str, char c)
 	return (add);
 }
 
-void	handler(int	sig, siginfo_t *info, void *ptr1)
+void	handler(int sig, siginfo_t *info, void *ptr1)
 {
 	(void)ptr1;
 	(void)info;
@@ -61,13 +59,13 @@ void	handler(int	sig, siginfo_t *info, void *ptr1)
 	{
 		if (!g_bits.symbol)
 		{
-			ft_printf("%s\n", message);
+			ft_printf("%s\n", g_bits.message);
 			kill(info->si_pid, SIGUSR2);
-			free(message);
+			free(g_bits.message);
 			message = 0;
 		}
 		else
-			message = ft_straddc(message, g_bits.symbol);
+			g_bits.message = ft_straddc(g_bits.message, g_bits.symbol);
 		g_bits.bit = 0x80;
 		g_bits.symbol = 0;
 	}
@@ -78,7 +76,7 @@ void	handler(int	sig, siginfo_t *info, void *ptr1)
 int	main(void)
 {
 	struct sigaction	sa;
-	
+
 	g_bits.symbol = 0;
 	g_bits.bit = 0x80;
 	sigemptyset(&sa.sa_mask);
