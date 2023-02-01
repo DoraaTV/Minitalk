@@ -6,7 +6,7 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 07:18:03 by thrio             #+#    #+#             */
-/*   Updated: 2023/02/01 14:26:07 by thrio            ###   ########.fr       */
+/*   Updated: 2023/02/01 17:01:54 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,27 @@ char	*ft_straddc(char *str, char c)
 
 void	handler(int sig, siginfo_t *info, void *ptr1)
 {
+	static char			*message;
+	static unsigned int	bit = 0x80;
+	static char			symbol = 0;
+
 	(void)ptr1;
-	(void)info;
 	if (sig == SIGUSR1)
-		g_bits.symbol += g_bits.bit;
-	g_bits.bit >>= 1;
-	if (!g_bits.bit)
+		symbol += bit;
+	bit >>= 1;
+	if (!bit)
 	{
-		if (!g_bits.symbol)
+		if (!symbol)
 		{
-			ft_printf("%s\n", g_bits.message);
+			ft_printf("%s\n", message);
 			kill(info->si_pid, SIGUSR2);
-			free(g_bits.message);
+			free(message);
 			message = 0;
 		}
 		else
-			g_bits.message = ft_straddc(g_bits.message, g_bits.symbol);
-		g_bits.bit = 0x80;
-		g_bits.symbol = 0;
+			message = ft_straddc(message, symbol);
+		bit = 0x80;
+		symbol = 0;
 	}
 	usleep(75);
 	kill(info->si_pid, SIGUSR1);
@@ -77,8 +80,6 @@ int	main(void)
 {
 	struct sigaction	sa;
 
-	g_bits.symbol = 0;
-	g_bits.bit = 0x80;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = &handler;
