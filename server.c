@@ -6,7 +6,7 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 07:18:03 by thrio             #+#    #+#             */
-/*   Updated: 2023/02/01 17:01:54 by thrio            ###   ########.fr       */
+/*   Updated: 2023/02/01 18:05:14 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	handler(int sig, siginfo_t *info, void *ptr1)
 		bit = 0x80;
 		symbol = 0;
 	}
-	usleep(75);
 	kill(info->si_pid, SIGUSR1);
 }
 
