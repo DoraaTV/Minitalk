@@ -6,7 +6,7 @@
 #    By: thrio <thrio@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/23 11:14:21 by thrio             #+#    #+#              #
-#    Updated: 2023/01/21 17:29:16 by thrio            ###   ########.fr        #
+#    Updated: 2023/02/01 14:18:15 by thrio            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,33 +26,30 @@ RM			= rm -f
 
 CFLAGS		= -Wall -Wextra -Werror -g3
 
-all	:	${NAME}
+NAMECLIENT	= client
+NAMESERVER	= server
 
-${NAME}:	lib server client
+all:	${NAMESERVER} ${NAMECLIENT}
 
-.c.o:
-	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
-
-lib:
-	cd Libft && make && cd ..
-
-server: ${SERVER_O}
+${NAMESERVER}: ${SERVER_O}
+		${MAKE} -C Libft/
 		${CC} ${CFLAGS} ${SERVER_O} Libft/libft.a -o server
 
-client: ${CLIENT_O}
+${NAMECLIENT}: ${CLIENT_O}
+		${MAKE} -C Libft/
 		${CC} ${CFLAGS} ${CLIENT_O} Libft/libft.a -o client
 		
-bonus	:	${NAME}
+bonus	:	all
 
 clean:
 		${RM} ${CLIENT_O} ${SERVER_O}
-		cd Libft && make clean && cd ..
+		${MAKE} clean -C Libft/
 		
 
 fclean:		clean
 		${RM} server client
-		cd Libft && make fclean && cd ..
+		${MAKE} fclean -C Libft/
 
 re:		fclean all
 
-.PHONY:		all clean fclean re norminette bonus server client libft minitalk
+.PHONY:		all clean fclean re norminette bonus ser cli libft minitalk

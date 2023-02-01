@@ -6,7 +6,7 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 07:39:00 by thrio             #+#    #+#             */
-/*   Updated: 2023/01/23 16:41:33 by thrio            ###   ########.fr       */
+/*   Updated: 2023/02/01 13:22:05 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@
 
 typedef struct	s_struct
 {
-	unsigned int	bit;
-	char			symbol;
-}				t_struct;
+	unsigned int		bit;
+	char				symbol;
+	unsigned long int	len;
+}						t_struct;
 
 t_struct			g_bits;
 

@@ -6,27 +6,25 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 07:17:59 by thrio             #+#    #+#             */
-/*   Updated: 2023/01/23 16:56:18 by thrio            ###   ########.fr       */
+/*   Updated: 2023/02/01 13:38:33 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-unsigned long int	len;
-
 void handler(int sig)
 {
-	(void)sig;
-	g_bits.bit >>= 1;
-	if (g_bits.bit == 0 && len == 0)
+	if (sig == SIGUSR2)
 		ft_printf("Data has been sent and received\n");
+	else
+		g_bits.bit >>= 1;
 }
 
-struct sigaction	helper(unsigned long int *len, char **av)
+struct sigaction	helper(char **av)
 {
 	struct sigaction sa;
 	
-	*len = ft_strlen(av[2]) + 1;
+	g_bits.len = ft_strlen(av[2]) + 1;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sa.sa_handler = &handler;
@@ -35,7 +33,7 @@ struct sigaction	helper(unsigned long int *len, char **av)
 
 void	send(char **av)
 {
-	while (len--)
+	while (g_bits.len--)
 	{
 		g_bits.bit = 0x80;
 		while(g_bits.bit)
@@ -51,10 +49,11 @@ void	send(char **av)
 					exit(1);
 			}
 			pause();
-			usleep(50);
+			usleep(75);
 		}
 		av[2]++;
 	}
+	
 }
 
 int	main(int ac, char **av)
@@ -66,7 +65,8 @@ int	main(int ac, char **av)
 		ft_printf("Wrong Argument\n");
 		return (-1);
 	}
-	sa = helper(&len, av);
+	sa = helper(av);
+	sigaction(SIGUSR2, &sa, 0);
 	sigaction(SIGUSR1, &sa, 0);
 	send(av);
 	return (0);
