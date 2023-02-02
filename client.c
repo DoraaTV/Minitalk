@@ -6,7 +6,7 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 07:17:59 by thrio             #+#    #+#             */
-/*   Updated: 2023/02/01 18:03:27 by thrio            ###   ########.fr       */
+/*   Updated: 2023/02/02 11:31:46 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(int ac, char **av)
 	unsigned long int	len;
 
 	g_status = 0;
-	len = ft_strlen(av[2]) + 1;;
+	len = ft_strlen(av[2]) + 1;
 	if (ac != 3)
 	{
 		ft_printf("Wrong Argument\n");
