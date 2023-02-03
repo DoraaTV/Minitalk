@@ -6,7 +6,7 @@
 #    By: thrio <thrio@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/23 11:14:21 by thrio             #+#    #+#              #
-#    Updated: 2023/01/23 14:37:33 by thrio            ###   ########.fr        #
+#    Updated: 2023/02/02 11:42:17 by thrio            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ clean:
 		${RM} ${OBJS} ${OBJS2}
 
 fclean:		clean
-		${RM} ../${NAME}
+		${RM} ${NAME}
 
 re:		fclean all
 

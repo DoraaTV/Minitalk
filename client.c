@@ -6,7 +6,7 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 07:17:59 by thrio             #+#    #+#             */
-/*   Updated: 2023/02/02 11:31:46 by thrio            ###   ########.fr       */
+/*   Updated: 2023/02/03 14:19:15 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,6 @@ void	handler(int sig)
 		ft_printf("Data has been sent and received\n");
 	else
 		g_status = 1;
-}
-
-struct sigaction	helper(void)
-{
-	struct sigaction	sa;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sa.sa_handler = &handler;
-	return (sa);
 }
 
 void	send(char **av, unsigned long int len)
@@ -66,13 +56,15 @@ int	main(int ac, char **av)
 	unsigned long int	len;
 
 	g_status = 0;
-	len = ft_strlen(av[2]) + 1;
 	if (ac != 3)
 	{
 		ft_printf("Wrong Argument\n");
 		return (-1);
 	}
-	sa = helper();
+	len = ft_strlen(av[2]) + 1;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sa.sa_handler = &handler;
 	sigaction(SIGUSR2, &sa, 0);
 	sigaction(SIGUSR1, &sa, 0);
 	send(av, len);
