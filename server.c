@@ -6,7 +6,7 @@
 /*   By: thrio <thrio@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 07:18:03 by thrio             #+#    #+#             */
-/*   Updated: 2023/02/03 16:49:39 by thrio            ###   ########.fr       */
+/*   Updated: 2023/02/03 16:56:12 by thrio            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*ft_util(siginfo_t *info, char *message)
 	{
 		ft_printf("\n");
 		kill(info->si_pid, SIGUSR2);
+		free(message);
 		message = 0;
 	}
 	else
